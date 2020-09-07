@@ -18,7 +18,8 @@ import { LIBRARY_ACCESS, libraryShape } from '../common/data';
 import messages from './messages';
 
 export const UserAccessContainer = ({
-  intl, library, user, multipleAdmins, setAccessLevel, removeAccess, isUser, showModal, setShowModal, isAdmin,
+  intl, library, user, multipleAdmins, setAccessLevel, removeAccess, isUser, showRemoveModal, setShowRemoveModal,
+  showDeprivModal, setShowDeprivModal, isAdmin, adminLocked,
 }) => (
   <Col xs={12} className="py-3">
     <Card>
@@ -39,16 +40,38 @@ export const UserAccessContainer = ({
           {isAdmin && (
           <Col xs={12} md={6}>
             <Row>
-              {isUser && user.access_level === LIBRARY_ACCESS.ADMIN && !multipleAdmins && (
+              {(user.access_level === LIBRARY_ACCESS.ADMIN) && adminLocked && (
               <Col xs={12} className="text-center text-md-right">
                 <small>{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
               </Col>
               )}
               {user.access_level === LIBRARY_ACCESS.ADMIN && multipleAdmins && (
               <Col xs={10} className="text-left text-md-right">
-                <Button size="lg" variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.STAFF)}>
+                <Button size="lg" variant="secondary" onClick={() => setShowDeprivModal(true)}>
                   {intl.formatMessage(messages['library.access.user.remove_admin'])}
                 </Button>
+                <Modal
+                  open={showDeprivModal}
+                  title={intl.formatMessage(messages['library.access.modal.remove_admin.title'])}
+                  onClose={() => setShowDeprivModal(false)}
+                  body={(
+                    <div>
+                      <p>
+                        {intl.formatMessage(
+                          messages['library.access.modal.remove_admin.body'],
+                          { library: library.title, email: user.email },
+                        )}
+                      </p>
+                    </div>
+                  )}
+                  buttons={[
+                    <Button
+                      onClick={() => setAccessLevel(LIBRARY_ACCESS.STAFF).then(setShowDeprivModal(false))}
+                    >
+                      Yes.
+                    </Button>,
+                  ]}
+                />
               </Col>
               )}
               {user.access_level === LIBRARY_ACCESS.USER && (
@@ -72,15 +95,15 @@ export const UserAccessContainer = ({
                   </Col>
                 </>
               )}
-              {(!isUser || multipleAdmins) && (
+              {(!((user.access_level === LIBRARY_ACCESS.ADMIN) && adminLocked)) && (
               <Col xs={2} className="text-right text-md-center">
-                <Button size="lg" variant="danger" onClick={() => setShowModal(true)}>
+                <Button size="lg" variant="danger" onClick={() => setShowRemoveModal(true)}>
                   <FontAwesomeIcon icon={faTrash} />
                 </Button>
                 <Modal
-                  open={showModal}
+                  open={showRemoveModal}
                   title={intl.formatMessage(messages['library.access.modal.remove.title'])}
-                  onClose={() => setShowModal(false)}
+                  onClose={() => setShowRemoveModal(false)}
                   body={(
                     <div>
                       <p>
@@ -110,22 +133,23 @@ export const UserAccessContainerBase = injectIntl(({
 }) => {
   const { authenticatedUser } = useContext(AppContext);
   const isUser = authenticatedUser.username === user.username;
-  const [showModal, setShowModal] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [showDeprivModal, setShowDeprivModal] = useState(false);
+  const adminLocked = user.access_level === LIBRARY_ACCESS.ADMIN && !props.multipleAdmins;
 
-  const setAccessLevel = (level) => {
-    props.setUserAccess({ libraryId: props.library.id, user, level });
-  };
+  const setAccessLevel = (level) => props.setUserAccess({ libraryId: props.library.id, user, level });
 
-  const removeAccess = () => {
-    props.removeUserAccess({ libraryId: props.library.id, user });
-  };
+  const removeAccess = () => props.removeUserAccess({ libraryId: props.library.id, user });
 
   const newProps = {
     ...props,
-    showModal,
-    setShowModal,
+    showRemoveModal,
+    setShowRemoveModal,
+    showDeprivModal,
+    setShowDeprivModal,
     isUser,
     user,
+    adminLocked,
     setAccessLevel,
     removeAccess,
   };
@@ -144,8 +168,10 @@ UserAccessContainerBase.propTypes = {
 UserAccessContainer.propTypes = {
   ...UserAccessContainerBase.propTypes,
   isUser: PropTypes.bool.isRequired,
-  showModal: PropTypes.bool.isRequired,
-  setShowModal: PropTypes.func.isRequired,
+  showRemoveModal: PropTypes.bool.isRequired,
+  setShowRemoveModal: PropTypes.func.isRequired,
+  showDeprivModal: PropTypes.bool.isRequired,
+  setShowDeprivModal: PropTypes.func.isRequired,
 };
 
 export default connect(

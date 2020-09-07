@@ -17,7 +17,7 @@ import { LoadingPage } from '../../generic';
 import { fetchLibraryDetail } from '../library-detail/data';
 import LibraryAccessFormContainer from './LibraryAccessForm';
 import {
-  LIBRARY_ACCESS, libraryShape, LOADING_STATUS, truncateErrorMessage,
+  LIBRARY_ACCESS, libraryShape, LOADING_STATUS, ROUTES, truncateErrorMessage,
 } from '../common/data';
 import {
   addUser,
@@ -146,10 +146,12 @@ const LibraryAccessPageContainer = ({
   const [showAdd, setShowAdd] = useState(false);
   const multipleAdmins = !!(users && users.filter((user) => user.access_level === 'admin').length >= 2);
   const { authenticatedUser } = useContext(AppContext);
-  const libraryAdmin = (users && users.filter((user) => (
+  let libraryAdmin = (users && users.filter((user) => (
     (user.username === authenticatedUser.username)
     && (user.access_level === LIBRARY_ACCESS.ADMIN)
   )));
+  // This array is special somehow and despite being empty will eval as true.
+  libraryAdmin = !!(libraryAdmin || []).length;
   const isAdmin = !!(authenticatedUser.administrator || libraryAdmin);
 
   // Explicit empty dependencies means on mount.
@@ -167,6 +169,19 @@ const LibraryAccessPageContainer = ({
   useEffect(() => () => {
     props.clearAccess();
   }, []);
+
+  useEffect(() => {
+    // To be done on each data reload. If the user's list doesn't contain the user, or if the user now no longer has
+    // staff privs, we need to send the user back to the libraries index.
+    if (users === null) {
+      // Still loading. Ignore.
+      return;
+    }
+    const admin = users.filter((user) => user.user_id === authenticatedUser.userId)[0];
+    if ((admin === undefined) || admin.access_level === LIBRARY_ACCESS.USER) {
+      props.history.replace(ROUTES.List.HOME);
+    }
+  });
 
   const handleDismissAlert = () => {
     props.clearAccessErrors();
@@ -219,6 +234,9 @@ LibraryAccessPageContainer.propTypes = {
     params: PropTypes.shape({
       libraryId: PropTypes.string.isRequired,
     }).isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    replace: PropTypes.func.isRequired,
   }).isRequired,
 };
 

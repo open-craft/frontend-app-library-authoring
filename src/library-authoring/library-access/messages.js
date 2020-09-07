@@ -145,6 +145,16 @@ const messages = defineMessages({
     defaultMessage: 'Are you sure you want to delete {email} from the library "{library}"?',
     description: 'Body of user removal confirmation modal.',
   },
+  'library.access.modal.remove_admin.title': {
+    id: 'library.access.modal.remove_admin.title',
+    defaultMessage: 'Are you sure?',
+    description: 'Title for user admin privilege removal confirmation modal',
+  },
+  'library.access.modal.remove_admin.body': {
+    id: 'library.access.modal.remove_admin.body',
+    defaultMessage: 'Are you sure you want to revoke admin privileges for {email} from the library "{library}"?',
+    description: 'Body of user admin privilege removal confirmation modal.',
+  },
 });
 
 export default messages;
