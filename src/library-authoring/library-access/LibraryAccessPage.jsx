@@ -32,6 +32,10 @@ import {
 import UserAccessContainer from './UserAccessContainer';
 
 
+/**
+ * LibraryAccessPage:
+ * Template component for the access management page for libraries.
+ */
 const LibraryAccessPage = ({
   intl, library, users, setShowAdd, errorMessage, showAdd, handleDismissAlert, multipleAdmins, isAdmin,
 }) => (
@@ -140,6 +144,13 @@ LibraryAccessPage.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
 };
 
+/**
+ * LibraryAccessPageContainer:
+ * Widget for editing the list of users with access to this content library.
+ * This wraps LibraryAccessPage and handles API calls to fetch/write data, as well as displaying
+ * a loading message during initial loading. This separation allows LibraryAccessPage to be tested
+ * in unit tests without needing to mock the API.
+ */
 const LibraryAccessPageContainer = ({
   intl, users, errorMessage, ...props
 }) => {

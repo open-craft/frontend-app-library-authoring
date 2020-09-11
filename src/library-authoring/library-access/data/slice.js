@@ -49,7 +49,7 @@ const slice = createSlice({
       state.users = payload.users;
     },
     libraryAccessClear: (state) => {
-      Object.assign(state, libraryAccessInitialState);
+      Object.assign(state, { ...libraryAccessInitialState });
     },
   },
 });

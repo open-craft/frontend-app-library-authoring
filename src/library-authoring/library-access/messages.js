@@ -65,6 +65,11 @@ const messages = defineMessages({
     defaultMessage: 'Add a New User',
     description: 'Text for the button in the "call to action" well on the bottom of the page.',
   },
+  'library.access.form.title': {
+    id: 'library.access.form.title',
+    defaultMessage: 'Grant Access to this Library',
+    description: 'Help text for the email field.',
+  },
   'library.access.form.email.help': {
     id: 'library.access.form.email.help',
     defaultMessage: 'Provide the email address of the user you want to add',

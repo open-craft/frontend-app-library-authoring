@@ -2,6 +2,7 @@
 Component for displaying and modifying a user's access level for a library.
  */
 import {
+  Badge,
   Button, Card, Col, Modal, Row,
 } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +16,7 @@ import {
   libraryUserShape, removeUserAccess, selectLibraryAccess, setUserAccess,
 } from './data';
 import { LIBRARY_ACCESS, libraryShape } from '../common/data';
+import commonMessages from '../common/messages';
 import messages from './messages';
 
 export const UserAccessContainer = ({
@@ -24,10 +26,10 @@ export const UserAccessContainer = ({
   <Col xs={12} className="py-3">
     <Card>
       <Card.Body>
-        <div className={`perm-badge ${user.access_level}`}>
+        <Badge className={`position-absolute ml-1 permy ${user.access_level}`}>
           <strong>{intl.formatMessage(messages[`library.access.info.${user.access_level}`])}</strong>&nbsp;
-          {isUser && intl.formatMessage(messages['library.access.info.self'])}
-        </div>
+          <span className="font-weight-normal">{isUser && intl.formatMessage(messages['library.access.info.self'])}</span>
+        </Badge>
         <Row className="py-3">
           <Col xs={12} md={6}>
             <span className="title title-2">
@@ -68,7 +70,7 @@ export const UserAccessContainer = ({
                     <Button
                       onClick={() => setAccessLevel(LIBRARY_ACCESS.STAFF).then(setShowDeprivModal(false))}
                     >
-                      Yes.
+                      {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
                     </Button>,
                   ]}
                 />

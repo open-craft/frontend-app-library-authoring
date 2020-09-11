@@ -17,6 +17,20 @@
   }
 }
 
+.permy {
+  top: -1rem;
+  color: $white;
+  &.admin {
+    background-color: $pink;
+  }
+  &.author {
+    background-color: $blue;
+  }
+  &.read {
+    background-color: $yellow-d1;
+  }
+}
+
 .card-title {
   font-size: 150%;
 }
@@ -26,9 +40,4 @@
   &:hover {
     box-shadow: none;
   }
-}
-
-.btn.action-button {
-  font-weight: bold;
-  text-transform: uppercase;
 }
