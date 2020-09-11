@@ -39,10 +39,10 @@ const slice = createSlice({
       state.users.unshift(payload.user);
     },
     libraryRemoveUser: (state, { payload }) => {
-      state.users = state.users.filter((user) => user.user_id !== payload.user.user_id);
+      state.users = state.users.filter((user) => user.username !== payload.user.username);
     },
     libraryUpdateUser: (state, { payload }) => {
-      const existing = state.users.filter((user) => user.user_id === payload.user.user_id)[0];
+      const existing = state.users.filter((user) => user.username === payload.user.username)[0];
       Object.assign(existing, payload.user);
     },
     libraryUsersSuccess: (state, { payload }) => {

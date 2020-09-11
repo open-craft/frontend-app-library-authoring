@@ -83,7 +83,7 @@ const LibraryAccessPage = ({
                 <UserAccessContainer
                   intl={intl}
                   user={user}
-                  key={user.user_id}
+                  key={user.username}
                   multipleAdmins={multipleAdmins}
                   library={library}
                   isAdmin={isAdmin}
@@ -177,7 +177,7 @@ const LibraryAccessPageContainer = ({
       // Still loading. Ignore.
       return;
     }
-    const admin = users.filter((user) => user.user_id === authenticatedUser.userId)[0];
+    const admin = users.filter((user) => user.username === authenticatedUser.username)[0];
     if ((admin === undefined) || admin.access_level === LIBRARY_ACCESS.USER) {
       props.history.replace(ROUTES.List.HOME);
     }

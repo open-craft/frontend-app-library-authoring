@@ -42,7 +42,7 @@ export async function addUserToLibrary({ libraryId, data }) {
 export async function setUserAccessLevel({ libraryId, user, level }) {
   const { client, baseUrl } = setupRequest();
   const response = await client.put(
-    `${baseUrl}/api/libraries/v2/${libraryId}/team/user/${user.user_id}/`,
+    `${baseUrl}/api/libraries/v2/${libraryId}/team/user/${user.username}/`,
     { access_level: level },
   ).catch((error) => {
     /* Normalize error data. */
@@ -57,7 +57,7 @@ export async function setUserAccessLevel({ libraryId, user, level }) {
 export async function removeUserFromLibrary({ libraryId, user }) {
   const { client, baseUrl } = setupRequest();
   return client.delete(
-    `${baseUrl}/api/libraries/v2/${libraryId}/team/user/${user.user_id}/`,
+    `${baseUrl}/api/libraries/v2/${libraryId}/team/user/${user.username}/`,
   ).catch((error) => {
     /* Normalize error data. */
     const apiError = Object.create(error);
