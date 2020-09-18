@@ -22,6 +22,8 @@ export const addUser = ({ libraryId, data }) => async (dispatch) => {
   } catch (error) {
     dispatch(actions.libraryAccessFailed({ errorMessage: error.message, errorFields: error.fields }));
     logError(error);
+    // Don't want to return this as successful, as the form will clear out info if we do.
+    throw error;
   }
 };
 

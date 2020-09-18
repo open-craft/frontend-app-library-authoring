@@ -112,13 +112,13 @@ const messages = defineMessages({
   },
   'library.access.info.author': {
     id: 'library.access.info.author',
-    defaultMessage: 'Staff',
-    description: 'Label for the author (staff) access level.',
+    defaultMessage: 'Author',
+    description: 'Label for the author access level.',
   },
   'library.access.info.read': {
     id: 'library.access.info.read',
-    defaultMessage: 'Library User',
-    description: 'Label for the read (library user) access level.',
+    defaultMessage: 'Read Only',
+    description: 'Label for the read only access level.',
   },
   'library.access.user.add_admin': {
     id: 'library.access.user.add_admin',
@@ -132,13 +132,13 @@ const messages = defineMessages({
   },
   'library.access.user.add_author': {
     id: 'library.access.user.add_author',
-    defaultMessage: 'Add Staff Access',
-    description: 'Label for button that grants a user author (staff) access.',
+    defaultMessage: 'Add Author Access',
+    description: 'Label for button that grants a user author access.',
   },
   'library.access.user.remove_author': {
     id: 'library.access.user.remove_author',
-    defaultMessage: 'Remove Staff Access',
-    description: 'Label for button that removes a user\'s author (staff) access level.',
+    defaultMessage: 'Remove Author Access',
+    description: 'Label for button that removes a user\'s author access level.',
   },
   'library.access.modal.remove.title': {
     id: 'library.access.modal.remove.title',

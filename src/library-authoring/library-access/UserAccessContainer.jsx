@@ -68,7 +68,7 @@ export const UserAccessContainer = ({
                   )}
                   buttons={[
                     <Button
-                      onClick={() => setAccessLevel(LIBRARY_ACCESS.STAFF).then(setShowDeprivModal(false))}
+                      onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR).then(setShowDeprivModal(false))}
                     >
                       {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
                     </Button>,
@@ -76,17 +76,17 @@ export const UserAccessContainer = ({
                 />
               </Col>
               )}
-              {user.access_level === LIBRARY_ACCESS.USER && (
+              {user.access_level === LIBRARY_ACCESS.READ && (
               <Col xs={10} className="text-left text-md-right">
-                <Button size="lg" variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.STAFF)}>
+                <Button size="lg" variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
                   {intl.formatMessage(messages['library.access.user.add_author'])}
                 </Button>
               </Col>
               )}
-              {user.access_level === LIBRARY_ACCESS.STAFF && (
+              {user.access_level === LIBRARY_ACCESS.AUTHOR && (
                 <>
                   <Col xs={5} className="text-left text-md-right pl-md-1">
-                    <Button size="lg" variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.USER)}>
+                    <Button size="lg" variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.READ)}>
                       {intl.formatMessage(messages['library.access.user.remove_author'])}
                     </Button>
                   </Col>

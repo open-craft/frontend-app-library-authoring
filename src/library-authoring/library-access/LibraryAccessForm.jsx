@@ -103,7 +103,7 @@ LibraryAccessForm.propTypes = {
 
 const initialFormState = () => ({
   email: '',
-  access_level: LIBRARY_ACCESS.USER,
+  access_level: LIBRARY_ACCESS.READ,
 });
 
 /**
@@ -117,14 +117,14 @@ const LibraryAccessFormContainer = (
 ) => {
   const [data, setData] = useState({
     email: '',
-    access_level: LIBRARY_ACCESS.USER,
+    access_level: LIBRARY_ACCESS.READ,
   });
 
   const onSubmit = useCallback((event) => {
     event.preventDefault();
     props.addUser({ libraryId: props.library.id, data }).then(() => {
       setData(initialFormState());
-    });
+    }).catch(() => undefined);
   }, [props, data]);
 
   const onValueChange = useCallback((event) => {

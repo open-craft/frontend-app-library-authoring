@@ -48,15 +48,17 @@ const LibraryAccessPage = ({
         </div>
         <nav className="nav-actions">
           <ul>
-            <li className="nav-item">
-              <Button
-                variant="success"
-                onClick={() => setShowAdd(true)}
-              >
-                <FontAwesomeIcon icon={faPlus} className="pr-3 icon-inline" />
-                {intl.formatMessage(messages['library.access.new.user'])}
-              </Button>
-            </li>
+            {isAdmin && (
+              <li className="nav-item">
+                <Button
+                  variant="success"
+                  onClick={() => setShowAdd(true)}
+                >
+                  <FontAwesomeIcon icon={faPlus} className="pr-3 icon-inline" />
+                  {intl.formatMessage(messages['library.access.new.user'])}
+                </Button>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
@@ -100,20 +102,22 @@ const LibraryAccessPage = ({
               )
             )}
           </Row>
-          <div className="well mt-3">
-            <Row className="h-100">
-              <Col xs={12} md={8} className="my-auto">
-                <h2 className="h2 font-weight-bold">{intl.formatMessage(messages['library.access.well.title'])}</h2>
-                <p>{intl.formatMessage(messages['library.access.well.text'])}</p>
-              </Col>
-              <Col xs={12} md={4} lg={3} className="my-auto offset-lg-1 text-center text-md-right">
-                <Button variant="success" size="lg" onClick={() => setShowAdd(true)}>
-                  <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
-                  <strong>{intl.formatMessage(messages['library.access.well.button'])}</strong>
-                </Button>
-              </Col>
-            </Row>
-          </div>
+          {isAdmin && (
+            <div className="well mt-3">
+              <Row className="h-100">
+                <Col xs={12} md={8} className="my-auto">
+                  <h2 className="h2 font-weight-bold">{intl.formatMessage(messages['library.access.well.title'])}</h2>
+                  <p>{intl.formatMessage(messages['library.access.well.text'])}</p>
+                </Col>
+                <Col xs={12} md={4} lg={3} className="my-auto offset-lg-1 text-center text-md-right">
+                  <Button variant="success" size="lg" onClick={() => setShowAdd(true)}>
+                    <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
+                    <strong>{intl.formatMessage(messages['library.access.well.button'])}</strong>
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          )}
         </article>
         <aside className="content-supplementary">
           <div className="bit">
@@ -189,7 +193,7 @@ const LibraryAccessPageContainer = ({
       return;
     }
     const admin = users.filter((user) => user.username === authenticatedUser.username)[0];
-    if ((admin === undefined) || admin.access_level === LIBRARY_ACCESS.USER) {
+    if ((admin === undefined) || admin.access_level === LIBRARY_ACCESS.READ) {
       props.history.replace(ROUTES.List.HOME);
     }
   });

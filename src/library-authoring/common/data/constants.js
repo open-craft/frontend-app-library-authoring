@@ -18,8 +18,8 @@ export const SUBMISSION_STATUS = {
 
 export const LIBRARY_ACCESS = {
   ADMIN: 'admin',
-  STAFF: 'author',
-  USER: 'read',
+  AUTHOR: 'author',
+  READ: 'read',
 };
 
 export const ROUTES = {
